@@ -2,6 +2,9 @@ name: Deploy pages
 on: push
 jobs:
   deploy:
+    permissions:
+      pages: write
+      id-token: write
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
