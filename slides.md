@@ -68,7 +68,7 @@ TODO: 骨伝導の写真
 
 - マイクを使ったときの音質
 - プロファイルの切り替え
-- デバイスドライバの不具合が多い
+- デバイスドライバの不具合が多い（特にmacOS/iOS）
 
 有線骨伝導ヘッドセットが欲しい・・・
 
@@ -123,10 +123,9 @@ background: /egg-chicken.jpg
 
 # デモ
 
-https://kounoike.github.com/mycamera-sample/
+https://gz5yzs.csb.app/
 
-
-TODO: QRコード？
+![](/QR.png)
 
 ---
 
@@ -137,7 +136,8 @@ TODO: QRコード？
 - 権限が無いと enumerateDevices が中身のないリストを返す
 - 権限を取るには getUserMedia の呼び出しが必要　　👈ループ
 
-TODO: 空の enumerateDevices のスクリーンショット
+![](/enumerateDevices.png)
+
 
 ---
 layout: cover
@@ -170,7 +170,87 @@ background: /blur.jpg
 <mdi-github /> shiguredo/media-processors
 ---
 
-# なんか media-processors の話
+# media-processors
+
+## 特徴
+
+- 時雨堂開発のOSSライブラリ
+- Soraに依存していない、ベンダーフリー
+
+## 機能
+
+- 仮想背景/背景ぼかし
+- 音声ノイズ抑制
+- ライト調整
+
+※発表者は時雨堂より委託を請けてmedia-processorsの開発に携わっています。
+
+---
+
+# 仮想背景/背景ぼかし
+
+```mermaid
+graph LR;
+    MediaStream-->VideoTrack;
+    MediaStream-->AudioTrack;
+    VideoTrack-->背景ぼかし;
+    背景ぼかし-->VideoTrack2;
+    VideoTrack2-->MediaStream2;
+    AudioTrack-->MediaStream2;
+    MediaStream2-->WebRTC;
+```
+
+- アプリケーション実装者がライブラリ実装を意識しなくて良い
+  - ChromeではMediaStreamTrack Insertable Media Processing using Streams
+  - SafariではHTMLVideoElement.requestVideoFrameCallback()
+- mediapipe: Googleの謎技術によりtfliteモデルをGPUで推論
+  - mediapipeはOSSだがJSにするところは非公開
+- ぼかし／背景処理を含めて全てGPUで動かすことで高速動作([shiguredo/media-processors#347](https://github.com/shiguredo/media-processors/pull/347))
+  - TODO: Safariのぼかし処理はCPU処理
+
+---
+
+# 音声ノイズ抑制
+
+```mermaid
+graph LR;
+    MediaStream-->VideoTrack;
+    MediaStream-->AudioTrack;
+    VideoTrack-->MediaStream2;
+    AudioTrack-->ノイズ抑制;
+    ノイズ抑制-->AudioTrack2;
+    AudioTrack2-->MediaStream2;
+    MediaStream2-->WebRTC;
+```
+
+- RNNoiseのWasm版
+- ノイズ抑制といえば一昔前はRNNoise一強だった
+  - RNNoiseの作者はAmazon Chimeへ(VoiceFocus)
+- Microsoft主催のDeep Noise Suppression Challenge
+  - FRCRN/sudo rm -rf/FullSubNetなど
+
+---
+
+# ライト調整
+
+```mermaid
+graph LR;
+    MediaStream-->VideoTrack;
+    MediaStream-->AudioTrack;
+    VideoTrack-->ライト調整;
+    ライト調整-->VideoTrack2;
+    VideoTrack2-->MediaStream2;
+    AudioTrack-->MediaStream2;
+    MediaStream2-->WebRTC;
+```
+
+- CPU版
+  - Efficient Contrast Enhancement Using Adaptive Gamma Correction With Weighting DistributionをZig/Wasmで実装
+  - 効き目は弱め
+- GPU版(New!)
+  - Semantic Guided Low Light Enhancementをtfjs/WebGL backendで推論
+  - GPUで推論し描画までGPU（こだわりポイント）
+  - 効き目は強め（強弱調整可能）
 
 ---
 layout: cover
@@ -189,10 +269,10 @@ background: /blur-api.jpg
     - →ネイティブ実装してAPI提供したい
   - https://chromestatus.com/feature/5077577782263808
     - Chrome Desktop Dev Trial: 112 / Origin Trial: 114 to 117
-
+    - Consensus & Standardization: Firefox/Safari/Web DevelopersいずれもPositive
 ---
 
-# OS側の機能を知る
+# OS側の機能
 
 <div class="grid grid-cols-2 gap-4">
   <div>
@@ -207,20 +287,32 @@ background: /blur-api.jpg
 
 # Windowsの状況
 
+- Windows Studio Effectsの機能の一つ
 - NPU搭載が必須
   - ほとんどのPCが対応していない
     - Surface Pro 9 with 5G
     - Windows開発キット 2023
     - ThinkPad Carbo Gen 10
-    - Ryzen AI(Ryzen 7040シリーズ)
-      - Minisforum UM798 Proはダメでした・・・
-
+    - AMD Ryzen AI(Ryzen 7040シリーズ)
+      - 搭載モデルによりON/OFFされているらしい？
+      - Minisforum UM790 Proはダメでした・・・
+    - Intel Meteor Lake以降？
+    - NVIDIA?
 
 ---
 
 # Macの状況
 
+- コントロールセンターで操作
 - M1/M2搭載が必須
+
+<div style="height: 50px;">
+</div>
+
+# Android/iOS/ChromeOSの状況
+
+### (詳しく調べてない)
+
 
 ---
 
@@ -230,9 +322,9 @@ M2 Macで動作確認したバージョン
 
 |      |状況|Chrome|Safari|Firefox|
 |------|----|----|----|----|
-|未対応|ぼかしがかからない| |**16.5.1**| |
+|未対応|ぼかしがかからない| |16.5.1| |
 |対応|ぼかしがかかる|114| |114.0.2|
-|中間地点|ぼかしのON/OFFをJSから取得可能|114(flag/OT)| | |
+|中間地点|ぼかしのON/OFFをJSから取得可能|114(112～flag/114～OT)| | |
 |ゴール|ぼかしのON/OFFをJSから設定可能| | | |
 
 ---
@@ -260,7 +352,16 @@ console.log(settings.backgroundBlur);
 ```
 
 ---
+layout: cover
+background: /eos.jpg
+---
+
+# スライドおわり
+
+---
 
 # おまけ
 
-## セクションタイトルの背景は Bing Image Creator で作った
+## セクションタイトルの背景はBing Image Creatorで作りました
+
+・・・なぜ滑り台？
