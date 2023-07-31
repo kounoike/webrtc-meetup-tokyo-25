@@ -1,0 +1,17 @@
+{
+  "name": "webrtc-meetup-tokyo-25",
+  "private": true,
+  "scripts": {
+    "build": "slidev build",
+    "dev": "slidev --open",
+    "export": "slidev export"
+  },
+  "dependencies": {
+    "@slidev/cli": "^0.42.5",
+    "@slidev/theme-default": "latest",
+    "@slidev/theme-seriph": "latest"
+  },
+  "devDependencies": {
+    "@iconify-json/mdi": "^1.1.53"
+  }
+}
