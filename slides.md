@@ -55,27 +55,6 @@ WebRTC Meetup Online #2<br />
 
 ---
 
-# 目次
-
-- MediaTrackConstraints
-  - AudioTrack関係
-  - VideoTrack関係（background-blur API）
-- @shiguredo/media-processorsによる加工
-- 小話
-  - Bluetooth ヘッドセットの話
-  - getUserMedia と enumerateDevices の卵と鶏
-  - 自分のローカルビデオを一工夫する話
-
-
----
-layout: cover
-background: /MediaTrackConstraints.jpg
----
-
-# MediaTrackConstraints
-
----
-
 # ブラウザでカメラ・マイクを使う
 
 ### getUserMediaにMediaStreamConstraintsを渡す
@@ -93,6 +72,22 @@ MediaTrackConstraints:
 - VideoTrack関連の制約
 - AudioTrack関連の制約
 - Image Track（静止画）関連の制約 ⚠️今回は触れない
+
+---
+
+# 目次
+
+- MediaTrackConstraints
+  - AudioTrack関係（autoGainControl/echoCancellation/noiseSuppression）
+  - VideoTrack関係（background-blur API）
+- @shiguredo/media-processorsによる加工
+
+---
+layout: cover
+background: /MediaTrackConstraints.jpg
+---
+
+# MediaTrackConstraints
 
 ---
 
