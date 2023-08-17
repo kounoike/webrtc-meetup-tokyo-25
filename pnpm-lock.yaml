@@ -19,6 +19,18 @@ dependencies:
     version: 0.21.3
 
 devDependencies:
+  '@iconify-json/fa':
+    specifier: ^1.1.5
+    version: 1.1.5
+  '@iconify-json/fa6-brands':
+    specifier: ^1.1.13
+    version: 1.1.13
+  '@iconify-json/logos':
+    specifier: ^1.1.34
+    version: 1.1.34
+  '@iconify-json/material-symbols':
+    specifier: ^1.1.54
+    version: 1.1.54
   '@iconify-json/mdi':
     specifier: ^1.1.53
     version: 1.1.53
@@ -558,6 +570,30 @@ packages:
     dependencies:
       '@iconify/types': 2.0.0
     dev: false
+
+  /@iconify-json/fa6-brands@1.1.13:
+    resolution: {integrity: sha512-7toccM334NO1jIsfnqTK9Bo12CIuE4ClnfW9SyRFKFax7b/oKOsgnvokgCAtQgomiQ6ODjC1zWCpzSDidtBUXw==}
+    dependencies:
+      '@iconify/types': 2.0.0
+    dev: true
+
+  /@iconify-json/fa@1.1.5:
+    resolution: {integrity: sha512-a6iC7FArLDb02hYKrgQWdn5fCCtXxWhw9mkqXbKLvuta4DdZuZdaSbDoA4GuZx1t+0cD7/epF8I9tkrNvyzrrA==}
+    dependencies:
+      '@iconify/types': 2.0.0
+    dev: true
+
+  /@iconify-json/logos@1.1.34:
+    resolution: {integrity: sha512-2eBkFOKj0XhSGoxW/L7cEo6tJEOFCiFOlv/bnIAeZquHzCI+I7m0x9B8bbX+0aYoOb165jpGQQmB6wNO4IcLEA==}
+    dependencies:
+      '@iconify/types': 2.0.0
+    dev: true
+
+  /@iconify-json/material-symbols@1.1.54:
+    resolution: {integrity: sha512-10DL3dbp5/at3D55df4L5geM+vNf7v/SsF3YHTTN49xWSXGQVWRDEr508RmbCJxUQ1TZb3dHU/n/4VQDbBudCA==}
+    dependencies:
+      '@iconify/types': 2.0.0
+    dev: true
 
   /@iconify-json/mdi@1.1.53:
     resolution: {integrity: sha512-qG72Tc9Bd4w7fha+kMEySVTbH4Obgb9xA1mQl+WReFhtZ3PjcVpIWLgZGTewuIfZY8RAbd8zfAqhZ7qEYZWrhg==}
