@@ -61,16 +61,16 @@ WebRTC Meetup Online #2<br />
 
 ```js
 const constraint = {
-  video: {width: 640, height: 360}, // boolean or MediaTrackConstraints
   audio: {autoGainControl: false},  // boolean or MediaTrackConstraints
+  video: {width: 640, height: 360}, // boolean or MediaTrackConstraints
 };
 const stream = await navigator.mediaDevices.getUserMedia(constraint);
 ```
 
 MediaTrackConstraints:
 
-- VideoTrack関連の制約
 - AudioTrack関連の制約
+- VideoTrack関連の制約
 - Image Track（静止画）関連の制約 ⚠️今回は触れない
 
 ---
@@ -91,23 +91,6 @@ background: /MediaTrackConstraints.jpg
 
 ---
 
-# VideoTrack関連の制約
-
-- デバイスの選択に関する制約
-  - deviceId
-  - facingMode
-- フォーマットに関する制約
-  - width
-  - height
-  - aspectRatio
-  - frameRate
-- 画像を良くするための制約
-  - backgroundBlur（background-blur API）
-
-今回は一番下のbackgroundBlurについての話をします
-
----
-
 # AudioTrack関連の制約
 
 - deviceId
@@ -123,6 +106,23 @@ background: /MediaTrackConstraints.jpg
   - noiseSuppression
 
 今回は一番下のautoGainControl/echoCancellation/noiseSuppressionについての話をします
+
+---
+
+# VideoTrack関連の制約
+
+- デバイスの選択に関する制約
+  - deviceId
+  - facingMode
+- フォーマットに関する制約
+  - width
+  - height
+  - aspectRatio
+  - frameRate
+- 画像を良くするための制約
+  - backgroundBlur（background-blur API）
+
+今回は一番下のbackgroundBlurについての話をします
 
 ---
 layout: cover
