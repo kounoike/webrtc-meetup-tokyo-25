@@ -20,8 +20,8 @@ fonts:
 #  serif: 'Zen Maru Gothic'
   # sans: 'Kiwi Maru'
   # serif: 'Kiwi Maru'
-  sans: 'Mochiy Pop P One, Noto Color Emoji'
-  serif: 'Zen Maru Gothic'
+#  sans: 'Mochiy Pop P One, Noto Color Emoji'
+#  serif: 'Zen Maru Gothic'
 # for code blocks, inline code, etc.
   mono: 'Fira Code'
   weights: '400'
@@ -324,34 +324,52 @@ background: /blur.jpg
 
 ## 特徴
 
-- 時雨堂開発のOSSライブラリ
+- 株式会社時雨堂開発のOSSライブラリ
 - Soraに依存していない、ベンダーフリー
 
 ## 機能
 
-- 仮想背景/背景ぼかし
 - 音声ノイズ抑制
+- 仮想背景/背景ぼかし
 - ライト調整
   - CPU版
   - GPU版（公開準備中） 
-- フェイスフレーミング（開発中）
+- フェイスフレーミング（開発予定）
 
 ※発表者は時雨堂より委託を請けてmedia-processorsの開発に携わっています。
 
 ---
 
+# 音声ノイズ抑制
+
+- RNNoiseのWasm版を利用
+- MediaTrackConstraintsのnoiseSuppressionより強力
+  - その分元音声への影響も強い
+
+<p style="margin-bottom: 0px;">余談</p>
+
+- ノイズ抑制といえば一昔前はRNNoise一強だった
+  - RNNoiseの作者はAmazon Chimeへ(VoiceFocus)
+- Microsoft主催のDeep Noise Suppression Challenge
+  - FRCRN/sudo rm -rf/FullSubNetなど
+
+---
+
 # 仮想背景/背景ぼかし
 
-```mermaid
-graph LR;
-    MediaStream-->VideoTrack;
-    MediaStream-->AudioTrack;
-    VideoTrack-->背景ぼかし;
-    背景ぼかし-->VideoTrack2;
-    VideoTrack2-->MediaStream2;
-    AudioTrack-->MediaStream2;
-    MediaStream2-->WebRTC;
-```
+人物領域の検出→背景のぼかし or 差し替え（上段 元画像）
+
+<div>
+<img src="/vbg-original.png" width="320" height="180">
+<img src="/vbg-blur.png" width="320" height="180" style="display: inline;">
+<img src="/vbg-bgchange.png" width="320" height="180" style="display: inline;">
+</div>
+
+画像はぱくたそ(https://www.pakutaso.com/20230429104post-46439.html)より
+
+---
+
+# 仮想背景/背景ぼかし
 
 - アプリケーション実装者がブラウザ差異を意識しなくて良い
   - ChromeではMediaStreamTrack Insertable Media Processing using Streams
@@ -364,50 +382,36 @@ graph LR;
 
 ---
 
-# 音声ノイズ抑制
+# ライト調整
 
-```mermaid
-graph LR;
-    MediaStream-->VideoTrack;
-    MediaStream-->AudioTrack;
-    VideoTrack-->MediaStream2;
-    AudioTrack-->ノイズ抑制;
-    ノイズ抑制-->AudioTrack2;
-    AudioTrack2-->MediaStream2;
-    MediaStream2-->WebRTC;
-```
+暗い画像を明るく補正する（上段: 元画像 下段左: CPU版 右: GPU版）
 
-- RNNoiseのWasm版を利用
+<img src="/la-original.png">
+<img src="/la-cpu.png" style="display: inline;">
+<img src="/la-gpu.png" style="display: inline;">
 
-<p style="margin-bottom: 0px;">余談</p>
-
-- ノイズ抑制といえば一昔前はRNNoise一強だった
-  - RNNoiseの作者はAmazon Chimeへ(VoiceFocus)
-- Microsoft主催のDeep Noise Suppression Challenge
-  - FRCRN/sudo rm -rf/FullSubNetなど
+画像はぱくたそ(https://www.pakutaso.com/20211010301post-37460.html)より
 
 ---
 
 # ライト調整
 
-```mermaid
-graph LR;
-    MediaStream-->VideoTrack;
-    MediaStream-->AudioTrack;
-    VideoTrack-->ライト調整;
-    ライト調整-->VideoTrack2;
-    VideoTrack2-->MediaStream2;
-    AudioTrack-->MediaStream2;
-    MediaStream2-->WebRTC;
-```
-
 - CPU版
   - [Efficient Contrast Enhancement Using Adaptive Gamma Correction With Weighting Distribution](https://ieeexplore.ieee.org/document/6336819)をZig/Wasmで実装
   - 効き目は弱め
-- GPU版(New!)
+- GPU版(Coming Soon!)
   - Semantic Guided Low Light Enhancementをtfjs/WebGL backendで推論
   - GPUで推論し描画までGPU（こだわりポイント）
   - 効き目は強め（強弱調整可能）
+
+---
+
+# まとめ
+
+- MediaTrackConstraintsでOSの機能を利用して「良い」ストリームにする
+- 取得したストリームを更に加工して「良い」ストリームにする
+
+→「良い」ストリームにしてからWebRTCの通信に送りましょう！
 
 ---
 layout: cover
@@ -420,6 +424,6 @@ background: /eos.jpg
 
 # おまけ
 
-### 画像はBing Image Creatorで作りました
+### 背景・イラスト画像はBing Image Creatorで作りました
 
 ・・・なぜ滑り台？
