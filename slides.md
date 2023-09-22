@@ -315,7 +315,7 @@ layout: cover
 background: /blur.jpg
 ---
 
-# 背景ぼかし他<br /> (media-processors)
+# @shiguredo/media-processorsによる加工
 
 <mdi-github /> shiguredo/media-processors
 ---
