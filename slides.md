@@ -348,7 +348,7 @@ background: /blur.jpg
 
 <p style="margin-bottom: 0px;">余談</p>
 
-- ノイズ抑制といえば一昔前はRNNoise一強だった
+- ノイズ抑制といえばちょっと前はRNNoise一強だった
   - RNNoiseの作者はAmazon Chimeへ(VoiceFocus)
 - Microsoft主催のDeep Noise Suppression Challenge
   - FRCRN/sudo rm -rf/FullSubNetなど
