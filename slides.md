@@ -129,7 +129,7 @@ layout: cover
 background: /audio.jpg
 ---
 
-# 音を良くする話
+# AudioTrack関係 - 音を良くする話
 
 ---
 
@@ -195,7 +195,7 @@ layout: cover
 background: /blur-api.jpg
 ---
 
-# background-blur API
+# VideoTrack関係 - background-blur API
 
 ---
 
