@@ -410,8 +410,11 @@ background: /blur.jpg
 
 - MediaTrackConstraintsでOSの機能を利用して「良い」ストリームにする
 - 取得したストリームを更に加工して「良い」ストリームにする
+- （今回話してないこと）ブラウザに入れる前に加工する
+  - 仮想カメラの類
+  - 音声フィルタ(Krisp/NVIDIA Broadcast App/VSThost)
 
-→「良い」ストリームにしてからWebRTCの通信に送りましょう！
+→「良い」ストリームになるよう一工夫してからWebRTCの通信に送りましょう！
 
 ---
 layout: cover
